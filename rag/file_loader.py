@@ -24,13 +24,22 @@ def load_html(html_file):
         doc.page_content = remove_non_utf8_characters(doc.page_content)
     return docs
 
-
-class PDFLoader:
+class BaseLoader:
     def __init__(self) -> None:
         self.num_processes = get_num_cpu()
 
-    def __call__(self, pdf_files: List[str]):
-        with multiprocessing.Pool(processes=self.num_processes) as pool:
+    def __call__(self, files: List[str], **kwargs):
+        pass
+
+
+class PDFLoader(BaseLoader):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def __call__(self, pdf_files: List[str], **kwargs):
+        num_processes = min(self.num_processes, kwargs["workers"])
+
+        with multiprocessing.Pool(processes=num_processes) as pool:
             doc_loaded = []
             for result in pool.imap_unordered(load_pdf, pdf_files):
                 doc_loaded.extend(result)
@@ -38,10 +47,12 @@ class PDFLoader:
 
 class HTMLLoader:
     def __init__(self) -> None:
-        self.num_processes = get_num_cpu()
+        super().__init__()
 
-    def __call__(self, html_files: List[str]):
-        with multiprocessing.Pool(processes=self.num_processes) as pool:
+    def __call__(self, html_files: List[str], **kwargs):
+        num_processes = min(self.num_processes, kwargs["workers"])
+
+        with multiprocessing.Pool(processes=num_processes) as pool:
             doc_loaded = []
             for result in pool.imap_unordered(load_html, html_files):
                 doc_loaded.extend(result)
@@ -82,18 +93,18 @@ class Loader:
 
         self.doc_spltter = TextSplitter(**split_kwargs)
 
-    def load(self, pdf_files: Union[str, List[str]]):
+    def load(self, pdf_files: Union[str, List[str]], **kwargs):
         if isinstance(pdf_files, str):
             pdf_files = [pdf_files]
-        doc_loaded = self.doc_loader(pdf_files)
+        doc_loaded = self.doc_loader(pdf_files, **kwargs)
         doc_split = self.doc_spltter(doc_loaded)
         return doc_split
 
-    def load_dir(self, dir_path: str):
+    def load_dir(self, dir_path: str, workers: int = 1):
         if self.file_type == "pdf":
             files = glob.glob(f"{dir_path}/*.pdf")
             assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
         else:
             files = glob.glob(f"{dir_path}/*.html")
             assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
-        return self.load(files)
+        return self.load(files, workers=workers)
