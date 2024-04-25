@@ -30,7 +30,7 @@ app.add_middleware(
 
 
 def build_chain(llm, data_dir, data_type):
-    doc_loaded = Loader(file_type=data_type).load_dir(data_dir)
+    doc_loaded = Loader(file_type=data_type).load_dir(data_dir, workers=2)
     retriever = VectorDB(documents = doc_loaded).get_retriever()
     rag_chain = Offline_RAG(llm).get_chain(retriever)
     return rag_chain

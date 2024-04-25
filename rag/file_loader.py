@@ -45,7 +45,7 @@ class PDFLoader(BaseLoader):
                 doc_loaded.extend(result)
         return doc_loaded
 
-class HTMLLoader:
+class HTMLLoader(BaseLoader):
     def __init__(self) -> None:
         super().__init__()
 
@@ -93,10 +93,10 @@ class Loader:
 
         self.doc_spltter = TextSplitter(**split_kwargs)
 
-    def load(self, pdf_files: Union[str, List[str]], **kwargs):
+    def load(self, pdf_files: Union[str, List[str]], workers: int = 1):
         if isinstance(pdf_files, str):
             pdf_files = [pdf_files]
-        doc_loaded = self.doc_loader(pdf_files, **kwargs)
+        doc_loaded = self.doc_loader(pdf_files, workers=workers)
         doc_split = self.doc_spltter(doc_loaded)
         return doc_split
 
