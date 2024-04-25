@@ -1,15 +1,14 @@
 from typing import Union, List, Literal
 import glob
+from tqdm import tqdm
 import multiprocessing
 from langchain_community.document_loaders import PyPDFLoader, BSHTMLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-def get_num_cpu():
-    return multiprocessing.cpu_count()
+
 
 def remove_non_utf8_characters(text):
     return ''.join(char for char in text if ord(char) < 128)
-
 
 def load_pdf(pdf_file):
     docs = PyPDFLoader(pdf_file, extract_images=True).load()
@@ -17,12 +16,16 @@ def load_pdf(pdf_file):
         doc.page_content = remove_non_utf8_characters(doc.page_content)
     return docs
 
-
 def load_html(html_file):
     docs = BSHTMLLoader(html_file).load()
     for doc in docs:
         doc.page_content = remove_non_utf8_characters(doc.page_content)
     return docs
+
+
+def get_num_cpu():
+    return multiprocessing.cpu_count()
+
 
 class BaseLoader:
     def __init__(self) -> None:
@@ -38,12 +41,15 @@ class PDFLoader(BaseLoader):
 
     def __call__(self, pdf_files: List[str], **kwargs):
         num_processes = min(self.num_processes, kwargs["workers"])
-
         with multiprocessing.Pool(processes=num_processes) as pool:
             doc_loaded = []
-            for result in pool.imap_unordered(load_pdf, pdf_files):
-                doc_loaded.extend(result)
+            total_files = len(pdf_files)
+            with tqdm(total=total_files, desc="Loading PDFs", unit="file") as pbar:
+                for result in pool.imap_unordered(load_pdf, pdf_files):
+                    doc_loaded.extend(result)
+                    pbar.update(1)
         return doc_loaded
+
 
 class HTMLLoader(BaseLoader):
     def __init__(self) -> None:
@@ -51,12 +57,15 @@ class HTMLLoader(BaseLoader):
 
     def __call__(self, html_files: List[str], **kwargs):
         num_processes = min(self.num_processes, kwargs["workers"])
-
         with multiprocessing.Pool(processes=num_processes) as pool:
             doc_loaded = []
-            for result in pool.imap_unordered(load_html, html_files):
-                doc_loaded.extend(result)
+            total_files = len(html_files)
+            with tqdm(total=total_files, desc="Loading HTMLs", unit="file") as pbar:
+                for result in pool.imap_unordered(load_html, html_files):
+                    doc_loaded.extend(result)
+                    pbar.update(1)
         return doc_loaded
+
 
 class TextSplitter:
     def __init__(self, 
