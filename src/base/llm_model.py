@@ -11,7 +11,7 @@ nf4_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.bfloat16
 )
 
-def get_llm(model_name: str = "mistralai/Mistral-7B-Instruct-v0.2", 
+def get_hf_llm(model_name: str = "mistralai/Mistral-7B-Instruct-v0.2", 
             max_new_token = 1024, 
             **kwargs):
     
