@@ -1,10 +1,7 @@
-from langserve.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
-
 from src.chat.history import create_session_factory
-
-from langchain_core.output_parsers import StrOutputParser
 from src.chat.output_parser import Str_OutputParser
 
 
@@ -25,9 +22,7 @@ class InputChat(BaseModel):
 
 
 def build_chat_chain(llm, history_folder, max_history_length):
-
     chain = chat_prompt | llm | Str_OutputParser()
-
     chain_with_history = RunnableWithMessageHistory(
         chain,
         create_session_factory(base_dir=history_folder, 
@@ -35,4 +30,4 @@ def build_chat_chain(llm, history_folder, max_history_length):
         input_messages_key="human_input",
         history_messages_key="chat_history",
     )
-    return chain_with_history.with_types(input_type=InputChat)
+    return chain_with_history

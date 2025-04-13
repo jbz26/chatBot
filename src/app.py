@@ -77,8 +77,5 @@ async def check():
 
 add_routes(app,
            chat_chain,
-           enable_feedback_endpoint=False,
-           enable_public_trace_link_endpoint=False,
-           playground_type="default",
            path="/chat")
 

@@ -16,10 +16,11 @@ cd ../machine_learning && python download.py
 
 ```bash
 pip3 install -r dev_requirements.txt
+# Start the server
 uvicorn src.app:app --host "0.0.0.0" --port 5000 --reload
 ```
 
-Wait a munite for handling data and starting server.
+Wait a minute for handling data and starting server.
 
 ### 1.3 Run service in docker
 
