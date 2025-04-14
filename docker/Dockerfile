@@ -1,4 +1,4 @@
-FROM thuannan/torch-transformer
+FROM python:3.11-slim
 
 WORKDIR /backend
 
