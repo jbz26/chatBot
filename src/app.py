@@ -11,15 +11,13 @@ from src.rag.main import build_rag_chain, InputQA, OutputQA
 from src.chat.main import build_chat_chain
 
 
-llm = get_hf_llm("microsoft/phi-2", temperature=0.9)
+llm = get_hf_llm("meta-llama/Llama-3.2-1B-Instruct", temperature=0.9)
 
 genai_docs = "./data_source/generative_ai"
-ml_docs = "./data_source/machine_learning"
 
 # --------- Chains----------------
 
-# genai_chain = build_rag_chain(llm, data_dir=genai_docs, data_type="pdf")
-# ml_chain = build_rag_chain(llm, data_dir=ml_docs, data_type="html")
+genai_chain = build_rag_chain(llm, data_dir=genai_docs, data_type="pdf")
 
 chat_chain = build_chat_chain(llm, 
                               history_folder="./chat_histories",
@@ -50,32 +48,17 @@ async def check():
     return {"status": "ok"}
 
 
-# @app.post("/generative_ai", response_model=OutputQA)
-# async def generative_ai(inputs: InputQA):
-#     answer = genai_chain.invoke(inputs.question)
-#     return {"answer": answer}
-
-
-# @app.post("/machine_learning", response_model=OutputQA)
-# async def machine_learning(inputs: InputQA):
-#     answer = ml_chain.invoke(inputs.question)
-#     return {"answer": answer}
-
+@app.post("/generative_ai", response_model=OutputQA)
+async def generative_ai(inputs: InputQA):
+    answer = genai_chain.invoke(inputs.question)
+    return {"answer": answer}
 
 
 # --------- Langserve Routes - Playground ----------------
-# add_routes(app, 
-#            genai_chain, 
-#            playground_type="default",
-#            path="/generative_ai")
-
-# add_routes(app, 
-#            ml_chain, 
-#            playground_type="default",
-#            path="/machine_learning")
-
+add_routes(app, 
+           genai_chain, 
+           path="/generative_ai")
 
 add_routes(app,
            chat_chain,
            path="/chat")
-

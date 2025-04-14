@@ -1,12 +1,10 @@
 services:
     langchain_service:
-        container_name: langchain_container
-        image: langchain_image
-        restart: on-failure
         build:
             context: .
             dockerfile: ./docker/Dockerfile
-            shm_size: 512m
+        container_name: langchain
+        restart: on-failure
         volumes:
             - ${HOME}/.cache/huggingface:/root/.cache/huggingface
             - ${HOME}/.cache/torch:/root/.cache/torch
