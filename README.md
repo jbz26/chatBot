@@ -13,6 +13,8 @@ cd data_source/generative_ai && python download.py
 
 ### 1.2. Run service in local
 
+Python version: `3.11.9`
+
 ```bash
 pip3 install -r dev_requirements.txt
 # Start the server

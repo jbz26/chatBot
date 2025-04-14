@@ -59,8 +59,6 @@ add_routes(app,
            genai_chain, 
            path="/generative_ai")
 
-
 add_routes(app,
            chat_chain,
            path="/chat")
-

@@ -7,28 +7,12 @@ file_links = [
         "url": "https://arxiv.org/pdf/1706.03762"
     },
     {
-        "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
-        "url": "https://arxiv.org/pdf/2302.05543"
-    },
-    {
         "title": "BERT- Pre-training of Deep Bidirectional Transformers for Language Understanding",
         "url": "https://arxiv.org/pdf/1810.04805"
     },
     {
         "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
         "url": "https://arxiv.org/pdf/2201.11903"
-    },
-    {
-        "title": "Denoising Diffusion Probabilistic Models",
-        "url": "https://arxiv.org/pdf/2006.11239"
-    },
-    {
-        "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
-        "url": "https://arxiv.org/pdf/2112.10752"
-    },
-    {
-        "title": "Image-to-Image Translation with Conditional Adversarial Networks",
-        "url": "https://arxiv.org/pdf/1611.07004"
     },
     {
         "title": "Instruction Tuning for Large Language Models- A Survey",
@@ -39,13 +23,22 @@ file_links = [
         "url": "https://arxiv.org/pdf/2307.09288"
     },
     {
-        "title": "Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks",
-        "url": "https://arxiv.org/pdf/1703.10593"
+        "title": "DeepSeek LLM Scaling Open-Source Language Models with Longtermism",
+        "url": "https://arxiv.org/pdf/2401.02954"
     },
     {
-        "title": "UNSUPERVISED REPRESENTATION LEARNING WITH DEEP CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORKS",
-        "url": "https://arxiv.org/pdf/1511.06434"
+        "title": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model",
+        "url": "https://arxiv.org/pdf/2405.04434"
     },
+    {
+        "title": "DeepSeek-V3 Technical Report",
+        "url": "https://arxiv.org/pdf/2412.19437"
+    },
+    {
+        "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+        "url": "https://arxiv.org/pdf/2501.12948"
+    },
+
 ]
 
 def is_exist(file_link):
