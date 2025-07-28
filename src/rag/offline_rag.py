@@ -1,6 +1,6 @@
 import re
 from langchain import hub
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 
 
@@ -35,7 +35,8 @@ class Offline_RAG:
     def get_chain(self, retriever):
         input_data = {
             "context": retriever | self.format_docs, 
-            "question": RunnablePassthrough()
+            # "question": RunnablePassthrough()
+            "question": RunnablePassthrough() | RunnableLambda(lambda x: x.to_string() if hasattr(x, "to_string") else str(x))
         }
         rag_chain = (
             input_data

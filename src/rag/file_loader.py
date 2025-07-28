@@ -86,19 +86,23 @@ class TextSplitter:
 
 class Loader:
     def __init__(self, 
-                 file_type: str = Literal["pdf", "html"],
+                 file_type: str = Literal["pdf", "docx", "xlsx", "txt"],
                  split_kwargs: dict = {
                      "chunk_size": 300,
                      "chunk_overlap": 0}
                  ) -> None:
-        assert file_type in ["pdf", "html"], "file_type must be either pdf or html"
+        assert file_type in ["pdf", "docx", "xlsx", "txt"], "file_type must be either pdf or docx or xlsx or txt"
         self.file_type = file_type
         if file_type == "pdf":
             self.doc_loader = PDFLoader()
-        elif file_type == "html":
-            self.doc_loader = HTMLLoader()
+        elif file_type == "docx":
+            self.doc_loader = PyPDFLoader()
+        elif file_type == "xlsx":
+            self.doc_loader = PyPDFLoader()
+        elif file_type == "txt":
+            self.doc_loader = PyPDFLoader()
         else:
-            raise ValueError("file_type must be either pdf or html")
+            raise ValueError("file_type must be either pdf or docx or xlsx or txt")
 
         self.doc_spltter = TextSplitter(**split_kwargs)
 
@@ -113,7 +117,15 @@ class Loader:
         if self.file_type == "pdf":
             files = glob.glob(f"{dir_path}/*.pdf")
             assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
-        else:
-            files = glob.glob(f"{dir_path}/*.html")
+        elif self.file_type == 'docx':
+            files = glob.glob(f"{dir_path}/*.docx")
             assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
+        elif self.file_type == 'xlsx':
+            files = glob.glob(f"{dir_path}/*.xlsx")
+            assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
+        elif self.file_type == 'txt':
+            files = glob.glob(f"{dir_path}/*.txt")
+            assert len(files) > 0, f"No {self.file_type} files found in {dir_path}"
+        else:
+            raise ValueError("file_type must be either pdf or docx or xlsx or txt")
         return self.load(files, workers=workers)

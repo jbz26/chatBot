@@ -13,7 +13,7 @@ def get_llm(model: str = "gemini-2.0-flash", temperature: float = 0.0, max_token
             os.environ["GOOGLE_API_KEY"] = get_token()
         else:
             os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key:")
-        print("Waiting API key from frontend...")
+            print("Waiting API key from frontend...")
     llm = ChatGoogleGenerativeAI(
         model=model,
         temperature=temperature,
