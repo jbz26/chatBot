@@ -155,5 +155,5 @@ cython_debug/
 chat_histories/*.json
 /data_source/*/*.pdf
 /data_source/*/*.html
-
+*_token.py
 

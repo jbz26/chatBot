@@ -1,40 +1,26 @@
-import torch
-from transformers import BitsAndBytesConfig
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from langchain.llms.huggingface_pipeline import HuggingFacePipeline
+from langchain_google_genai import ChatGoogleGenerativeAI
+from src.base.get_token import get_token
+import os
+import getpass
 
 
-nf4_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_compute_dtype=torch.bfloat16
-)
-
-def get_hf_llm(model_name: str = "mistralai/Mistral-7B-Instruct-v0.2", 
-            max_new_token = 1024, 
-            **kwargs):
-    
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        quantization_config=nf4_config,
-        low_cpu_mem_usage=True
-    )
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-    model_pipeline = pipeline(
-        "text-generation",
+def get_llm(model: str = "gemini-2.0-flash", temperature: float = 0.0, max_tokens: int = None, **kwargs):
+    """
+    Initialize Gemini LLM via Google Generative AI using LangChain.
+    """
+    if not os.getenv("GOOGLE_API_KEY"):
+        if get_token():
+            os.environ["GOOGLE_API_KEY"] = get_token()
+        else:
+            os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key:")
+        print("Waiting API key from frontend...")
+    llm = ChatGoogleGenerativeAI(
         model=model,
-        tokenizer=tokenizer,
-        max_new_tokens=max_new_token,
-        pad_token_id=tokenizer.eos_token_id,
-        device_map="auto"
+        temperature=temperature,
+        max_tokens=max_tokens,
+        timeout=None,
+        max_retries=2,
+        api_key=os.getenv("GOOGLE_API_KEY"),
+        **kwargs
     )
-
-    llm = HuggingFacePipeline(
-        pipeline=model_pipeline,
-        model_kwargs=kwargs
-    )
-
     return llm
-

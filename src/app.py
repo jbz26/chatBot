@@ -6,12 +6,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from langserve import add_routes
 
-from src.base.llm_model import get_hf_llm
+from src.base.llm_model import get_llm
 from src.rag.main import build_rag_chain, InputQA, OutputQA
 from src.chat.main import build_chat_chain
 
 
-llm = get_hf_llm("meta-llama/Llama-3.2-1B-Instruct", temperature=0.9)
+llm = get_llm("meta-llama/Llama-3.2-1B-Instruct", temperature=0.9)
 
 genai_docs = "./data_source/generative_ai"
 
