@@ -6,13 +6,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from langserve import add_routes
 
-from typing import List
+from typing import List, Literal
 from fastapi import File, UploadFile, Form
 from src.rag.vectorstore import VectorDB
 from src.base.llm_model import get_llm
 from src.rag.main import build_rag_chain, InputQA, OutputQA
 from src.chat.main import build_chat_chain
 from src.rag.file_loader import Loader
+# from src.rag.file_loader import 
 # from langchain_experimental.text_splitter import SemanticChunker
 # from src.rag.extractor import Extractor
 
@@ -23,7 +24,8 @@ genai_docs = "./data_source/generative_ai"
 
 # --------- Chains----------------
 
-genai_chain = build_rag_chain(llm, data_dir=genai_docs, data_type="pdf")
+# genai_chain = build_rag_chain(llm, data_dir=genai_docs, data_type="pdf")
+genai_chain = build_rag_chain(llm, data_dir=genai_docs)
 
 chat_chain = build_chat_chain(genai_chain, 
                               history_folder="./chat_histories",
@@ -75,11 +77,17 @@ async def upload(
 
 
     # Load all files with multiprocessing-aware loader
-    loader = Loader(file_type=f.filename.split(".")[-1],
-                    split_kwargs={
+    # loader = Loader(file_type=f.filename.split(".")[-1],
+    #                 split_kwargs={
+    #                     "chunk_size": 300,
+    #                     "chunk_overlap": 0
+    #                 })
+    # loader = Loader(split_kwargs={"chunk_size": 300, "chunk_overlap": 0})
+    loader = Loader(split_kwargs={
                         "chunk_size": 300,
                         "chunk_overlap": 0
                     })
+    # docs = loader.doc_loader(sources, workers=7)
     docs = loader.load(sources, workers=7)
 
     return {"message": "Docs processed", "extracted": docs}
