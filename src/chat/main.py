@@ -8,7 +8,7 @@ from src.chat.output_parser import Str_OutputParser
 chat_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant. Answer all questions to the best of your ability."),
-        MessagesPlaceholder(variable_name="chat_history"),
+        MessagesPlaceholder(variable_name="chat_histories"),
         ("human", "{human_input}"),
     ]
 )
@@ -28,6 +28,6 @@ def build_chat_chain(llm, history_folder, max_history_length):
         create_session_factory(base_dir=history_folder, 
                                max_history_length=max_history_length),
         input_messages_key="human_input",
-        history_messages_key="chat_history",
+        history_messages_key="chat_histories",
     )
     return chain_with_history
