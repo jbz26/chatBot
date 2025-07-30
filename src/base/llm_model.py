@@ -4,7 +4,7 @@ import os
 import getpass
 
 
-def get_llm(model: str = "gemini-2.0-flash", temperature: float = 0.0, max_tokens: int = None, **kwargs):
+def get_llm(model: str = "gemini-2.5-flash", temperature: float = 0.4, max_tokens: int = None, **kwargs):
     """
     Initialize Gemini LLM via Google Generative AI using LangChain.
     """

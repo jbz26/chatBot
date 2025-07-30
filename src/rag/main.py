@@ -26,7 +26,7 @@ class OutputQA(BaseModel):
 chat_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant. Answer all questions to the best of your ability."),
-        MessagesPlaceholder(variable_name="chat_histories"),
+        MessagesPlaceholder(variable_name="chat_history"),
         ("human", "{human_input}"),
     ]
 )
@@ -52,6 +52,6 @@ def build_rag_chain(llm, data_dir):
     # print(f"Type of doc_loaded: {type(doc_loaded)}")
     retriever = VectorDB(documents = doc_loaded).get_retriever()
     # retriever = EnhancedVectorDB(documents=doc_loaded).get_retriever()
-    rag_chain = Offline_RAG(llm).get_chain(retriever, history_folder="./chat_histories", max_history_length=6)
+    rag_chain = Offline_RAG(llm).get_chain(retriever, history_folder="./chat_history", max_history_length=6)
     return rag_chain
 

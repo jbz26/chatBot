@@ -200,7 +200,7 @@ class AdvancedRAG:
     
     def get_chain(self, 
                   retriever: BaseRetriever,
-                  history_folder: str = "./chat_histories",
+                  history_folder: str = "./chat_history",
                   max_history_length: int = 6,
                   enable_history: bool = True) -> Runnable:
         """
@@ -383,7 +383,7 @@ def create_simple_rag(llm: BaseLanguageModel,
 
 def create_rag_with_history(llm: BaseLanguageModel,
                            retriever: BaseRetriever,
-                           history_folder: str = "./chat_histories") -> Runnable:
+                           history_folder: str = "./chat_history") -> Runnable:
     """Create a RAG chain with conversation history."""
     rag = AdvancedRAG(llm)
     return rag.get_chain(retriever, history_folder=history_folder)

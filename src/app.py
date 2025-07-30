@@ -18,7 +18,7 @@ from src.rag.file_loader import Loader
 # from src.rag.extractor import Extractor
 
 
-llm = get_llm("gemini-2.0-flash", temperature=0.9)
+llm = get_llm("gemini-2.5-flash", temperature=0.3)
 
 genai_docs = "./data_source/generative_ai"
 
@@ -28,7 +28,7 @@ genai_docs = "./data_source/generative_ai"
 genai_chain = build_rag_chain(llm, data_dir=genai_docs)
 
 chat_chain = build_chat_chain(genai_chain, 
-                              history_folder="./chat_histories",
+                              history_folder="./chat_history",
                               max_history_length=6)
 
 
