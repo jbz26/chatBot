@@ -59,8 +59,8 @@ def get_clear_prompt() -> ChatPromptTemplate:
 def get_default_prompt() -> ChatPromptTemplate:
     return ChatPromptTemplate.from_messages([
         ("system", 
-         "Do not rephrase the question. Do not rephrase the question. Do not rephrase the question. Use the following context to answer the user's question concisely. "
-         "If you're unsure, say 'I don't know'. Keep the answer short and direct.\n\nContext:\n{context}\n\nExample: Input: 'Does BERT use bidirectional encoder representations from transformers according to the provided context?' -> Output: 'Yes, BERT is a Bidirectional Encoder Representations from Transformers model.'"),
+         "Do not rephrase the question. Do not rephrase the question. Do not rephrase the question. Use the following context to answer the user's question. "
+         "If you're unsure, say 'I don't know'.\n\nContext:\n{context}\n\nExample: Input: 'Does BERT use bidirectional encoder representations from transformers according to the provided context?' -> Output: 'Yes, BERT is a Bidirectional Encoder Representations from Transformers model.'"),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human", "{question}")
     ])

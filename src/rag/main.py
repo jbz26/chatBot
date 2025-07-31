@@ -39,6 +39,9 @@ class InputChat(BaseModel):
     )
 
 
+InputQA.model_rebuild()
+OutputQA.model_rebuild()
+
 # def build_rag_chain(llm, data_dir, data_type):
 def build_rag_chain(llm, data_dir):
     # doc_loaded = Loader().load(file_paths=data_dir)
