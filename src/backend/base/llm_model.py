@@ -2,7 +2,6 @@
 import os
 import getpass
 from dotenv import load_dotenv
-from llama_index.llms.openai_like import OpenAILike
 
 
 load_dotenv()
@@ -34,7 +33,7 @@ def get_openAI_lookalike(model: str ="qwen/qwen3-coder:free" ,temperature: float
     else: 
         api_key = getpass.getpass("Enter your OpenAI API key:")
     llm=OpenAILike(model=model,
-            api_key = api_key,
+            api_key = "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",
             temperature = temperature,
             max_tokens = max_tokens,
             api_base = api_base,

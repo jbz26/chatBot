@@ -1,6 +1,4 @@
 from pydantic import BaseModel, Field
-from llama_index.core import Document
-
 
 class ChatRequest(BaseModel):
     message: str = Field(..., example="What is the capital of Vietnam?")
