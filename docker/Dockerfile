@@ -16,8 +16,9 @@ COPY ./docker/requirements.txt .
 RUN pip install --upgrade wheel setuptools pip \
     && pip install -r requirements.txt --no-cache-dir
 
-COPY /data_source /backend/data_source
+COPY /data_source /
 
-COPY /src /backend/src
+COPY /src /src
 
-WORKDIR /backend
+
+WORKDIR /src

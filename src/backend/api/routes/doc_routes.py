@@ -1,4 +1,4 @@
-from src.backend.api.models import UploadFileRequest, UploadFileRespones, ChatRequest, ChatResponse
+from backend.api.models import UploadFileRequest, UploadFileRespones, ChatRequest, ChatResponse
 from fastapi import APIRouter , Request
 
 router = APIRouter(tags=["Documents"])

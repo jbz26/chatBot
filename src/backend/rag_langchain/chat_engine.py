@@ -4,7 +4,7 @@ from langchain_core.runnables import  RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import ChatPromptTemplate
 from langchain.memory import ConversationBufferMemory
-from src.backend.rag_langchain.file_loader import read_uploaded_files
+from backend.rag_langchain.file_loader import read_uploaded_files
 
 class ChatEngine():
     def __init__(self, llm, embedding ,collection_name: str = "my_chat_db", chroma_db_path: str = "./chroma_db", max_length: int = 1024):

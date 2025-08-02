@@ -1,13 +1,12 @@
 import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from contextlib import asynccontextmanager
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from src.backend.rag_langchain.chat_engine import ChatEngine
-from src.backend.api.routes.doc_routes import router as doc_router
-from src.backend.api.routes.chat_routes import router as chat_router
+from backend.rag_langchain.chat_engine import ChatEngine
+from backend.api.routes.doc_routes import router as doc_router
+from backend.api.routes.chat_routes import router as chat_router
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY", "2")
